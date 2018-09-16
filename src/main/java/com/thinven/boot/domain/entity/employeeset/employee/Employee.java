@@ -3,10 +3,12 @@ package com.thinven.boot.domain.entity.employeeset.employee;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.thinven.boot.domain.entity.employeeset.employeeauth.EmployeeAuth;
 import com.thinven.boot.support.domain.entity.model.EntityModel;
 
 @Entity
@@ -24,7 +26,11 @@ public class Employee extends EntityModel {
 	@Column(name = "bcc_gender")
 	private Long gender;
 
-	// 관리자 페이지에서 등록시 employee_auth 전달용.
+	//
+	@OneToOne(mappedBy = "employee")
+	private EmployeeAuth employeeAuth;
+
+	// 관리자 페이지에서 등록시 EmployeeAuth에 전달용.
 	@Transient
 	private String id;
 
@@ -97,13 +103,24 @@ public class Employee extends EntityModel {
 		this.gender = gender;
 	}
 
-	@JsonIgnore
 	public String getId() {
+		if (this.employeeAuth != null && this.employeeAuth.getId().length() > 0) {
+			id = this.employeeAuth.getId();
+		}
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@JsonIgnore
+	public EmployeeAuth getEmployeeAuth() {
+		return employeeAuth;
+	}
+
+	public void setEmployeeAuth(EmployeeAuth employeeAuth) {
+		this.employeeAuth = employeeAuth;
 	}
 
 }

@@ -17,26 +17,26 @@ public class EmployeeAuthRepositoryImpl extends QuerydslRepositorySupport implem
 	}
 
 	@Override
-	public List<EmployeeAuth> list(EmployeeAuth employeeauth) {
-		return tmpl(employeeauth, new WhereServiceImpl<EmployeeAuth, QEmployeeAuth>(employeeauth) {
-			public void where(QEmployeeAuth qcc, JPQLQuery<EmployeeAuth> query) {
+	public List<EmployeeAuth> list(EmployeeAuth employeeAuth) {
+		return tmpl(employeeAuth, new WhereServiceImpl<EmployeeAuth, QEmployeeAuth>(employeeAuth) {
+			public void where(QEmployeeAuth qea, JPQLQuery<EmployeeAuth> query) {
 
 			}
 		});
 	}
 
 	private List<EmployeeAuth> tmpl(EmployeeAuth entity, WhereService<EmployeeAuth, QEmployeeAuth> where) {
-		QEmployeeAuth qcc = QEmployeeAuth.employeeAuth;
+		QEmployeeAuth qea = QEmployeeAuth.employeeAuth;
 
-		JPQLQuery<EmployeeAuth> query = from(qcc);
+		JPQLQuery<EmployeeAuth> query = from(qea);
 
-		where.where(qcc, query);
+		where.where(qea, query);
 
 		if (entity.getQs() != null && entity.getQs().length() > 0) {
 
 		}
 
-		query.orderBy(qcc.lastdate.asc());
+		query.orderBy(qea.lastdate.asc());
 
 		if (entity.getPage() > 0) {
 			long offset = (entity.getPage() - 1) * entity.getPageSize();

@@ -31,7 +31,7 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 	@Override
 	public Message<EmployeeAuth> list(Message<EmployeeAuth> msg) {
 		if (msg.isOk()) {
-			msg.add("employeeauthlist", this.employeeAuthDao.list(msg.getParams()));
+			msg.add("employeeAuthlist", this.employeeAuthDao.list(msg.getParams()));
 		}
 		return msg;
 	}

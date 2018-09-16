@@ -10,7 +10,7 @@ import com.thinven.boot.domain.entity.employeeset.employeeauth.repo.EmployeeAuth
 import com.thinven.boot.support.domain.entity.dao.EntityDao;
 import com.thinven.boot.support.security.SHA512;
 
-@Component("employeeauthDao")
+@Component("employeeAuthDao")
 public class EmployeeAuthDaoImpl extends EntityDao<EmployeeAuth> implements EmployeeAuthDao {
 
 	@Autowired

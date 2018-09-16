@@ -6,8 +6,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Filter;
@@ -25,7 +25,7 @@ import com.thinven.boot.support.domain.entity.model.MemberModel;
 @FilterDefs({ @FilterDef(name = "WITH_ROLE", parameters = @ParamDef(name = "memu", type = "long")) })
 public class EmployeeAuth extends MemberModel {
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "mem_uid")
 	private Employee employee;
 
