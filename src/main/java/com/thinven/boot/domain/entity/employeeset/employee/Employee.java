@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinven.boot.support.domain.entity.model.EntityModel;
@@ -24,6 +25,7 @@ public class Employee extends EntityModel {
 	private Long gender;
 
 	// 관리자 페이지에서 등록시 employee_auth 전달용.
+	@Transient
 	private String id;
 
 	// Constructor
