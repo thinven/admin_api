@@ -42,4 +42,11 @@ public class EmployeeController {
 		return this.wrapperService.add(this.employeeService, employee, request).toMAV();
 	}
 
+	@RequestMapping(value = "", method = RequestMethod.PATCH)
+	@ApiOperation(value = "직원 수정", notes = "사이트를 사용하는 직원정보를 수정하는 API.")
+	public ModelAndView update(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
+		Employee employee = new Employee(p1, p2, p3);
+		return this.wrapperService.update(this.employeeService, employee, request).toMAV();
+	}
+
 }

@@ -15,4 +15,6 @@ public interface EmployeeAuthService extends MemberInfoService, UserDetailsServi
 
 	public Message<Employee> add(Message<Employee> msg, Employee info);
 
+	public Message<Employee> update(Message<Employee> msg, Employee employee);
+
 }

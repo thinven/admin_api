@@ -46,6 +46,11 @@ public class Employee extends EntityModel {
 		this.setP3(p3);
 	}
 
+	public Employee(String uid) {
+		this();
+		this.uid = uid;
+	}
+
 	// Set & Get
 	public String getUid() {
 		return uid;

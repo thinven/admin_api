@@ -127,7 +127,6 @@ public class Log {
 			String paramName = (String) paramNames.nextElement();
 
 			String[] paramValues = request.getParameterValues(paramName);
-
 			if (paramValues.length == 1) {
 				String paramValue = paramValues[0];
 				if (paramValue.length() == 0)

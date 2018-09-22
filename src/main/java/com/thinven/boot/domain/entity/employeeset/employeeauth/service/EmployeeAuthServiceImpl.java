@@ -37,6 +37,11 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 	}
 
 	@Override
+	public MemberModel infoByRk(String rk) {
+		return this.employeeAuthDao.infoByRk(rk);
+	}
+
+	@Override
 	public Message<Employee> add(Message<Employee> msg, Employee info) {
 		if (msg.isOk()) {
 			this.employeeAuthDao.add(new EmployeeAuth(msg.getParams().getId(), info));
@@ -45,8 +50,14 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 	}
 
 	@Override
-	public MemberModel infoByRk(String rk) {
-		return this.employeeAuthDao.infoByRk(rk);
+	public Message<Employee> update(Message<Employee> msg, Employee employee) {
+		if (msg.isOk()) {
+			EmployeeAuth info = this.employeeAuthDao.infoByEmployee(employee);
+			if (info != null) {
+				info.setId(employee.getId());
+			}
+		}
+		return msg;
 	}
 
 }
