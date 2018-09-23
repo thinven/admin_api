@@ -23,7 +23,7 @@ public class QWasError extends EntityPathBase<WasError<?>> {
 
     public final StringPath entitystring = createString("entitystring");
 
-    public final StringPath errmsg = createString("errmsg");
+    public final StringPath errormsg = createString("errormsg");
 
     //inherited
     public final DateTimePath<java.util.Date> lastdate = _super.lastdate;

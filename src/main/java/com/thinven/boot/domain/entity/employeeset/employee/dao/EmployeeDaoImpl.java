@@ -33,6 +33,7 @@ public class EmployeeDaoImpl extends EntityDao<Employee> implements EmployeeDao 
 	@Override
 	public Employee add(Employee entity) {
 		entity.init();
+		entity.setDelete(20L);
 		return this.employeeRepository.save(entity);
 	}
 

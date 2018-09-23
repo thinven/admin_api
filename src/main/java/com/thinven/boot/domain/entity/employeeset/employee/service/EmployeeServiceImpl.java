@@ -71,4 +71,18 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 		return msg;
 	}
 
+	@Override
+	public Message<Employee> delete(Message<Employee> msg) {
+		msg = this.employeValidator.init(msg).requiredUid().result();
+
+		if (msg.isOk()) {
+			Employee info = this.employeeDao.info(msg.getParams());
+			if (info != null) {
+				info.setDelete(10L);
+				msg.add("employee", info);
+			}
+		}
+		return msg;
+	}
+
 }

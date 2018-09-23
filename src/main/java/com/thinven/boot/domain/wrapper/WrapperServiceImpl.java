@@ -16,6 +16,7 @@ import com.thinven.boot.support.domain.entity.model.Message;
 import com.thinven.boot.support.domain.entity.service.AddService;
 import com.thinven.boot.support.domain.entity.service.BindService;
 import com.thinven.boot.support.domain.entity.service.CheckService;
+import com.thinven.boot.support.domain.entity.service.DeleteService;
 import com.thinven.boot.support.domain.entity.service.InfoService;
 import com.thinven.boot.support.domain.entity.service.ListService;
 import com.thinven.boot.support.domain.entity.service.SearchService;
@@ -109,6 +110,22 @@ public class WrapperServiceImpl<G> extends BindService<G> implements WrapperServ
 		} catch (Exception ex) {
 			msg.setMsg("ERR_EXCEPTION", "PARAM_ERROR");
 			Log.error(this, "WrapperServiceImpl.update() : " + ex.getMessage());
+			this.waserror(msg, entity, ex, request);
+		}
+		return msg;
+	}
+
+	@Override
+	public Message<G> delete(DeleteService<G> deleteService, G entity, HttpServletRequest request) {
+		Message<G> msg = new Message<G>();
+		try {
+			msg.setParams(entity);
+			msg = this.bindP1(msg, employeeAuthService);
+			msg = deleteService.delete(msg);
+			this.userrequest(msg, entity, request);
+		} catch (Exception ex) {
+			msg.setMsg("ERR_EXCEPTION", "PARAM_ERROR");
+			Log.error(this, "WrapperServiceImpl.delete() : " + ex.getMessage());
 			this.waserror(msg, entity, ex, request);
 		}
 		return msg;

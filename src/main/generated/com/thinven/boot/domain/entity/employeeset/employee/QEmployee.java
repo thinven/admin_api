@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -17,13 +18,19 @@ public class QEmployee extends EntityPathBase<Employee> {
 
     private static final long serialVersionUID = 1220958476L;
 
+    private static final PathInits INITS = PathInits.DIRECT2;
+
     public static final QEmployee employee = new QEmployee("employee");
 
     public final com.thinven.boot.support.domain.entity.model.QEntityModel _super = new com.thinven.boot.support.domain.entity.model.QEntityModel(this);
 
     public final StringPath birthday = createString("birthday");
 
+    public final NumberPath<Long> delete = createNumber("delete", Long.class);
+
     public final StringPath email = createString("email");
+
+    public final com.thinven.boot.domain.entity.employeeset.employeeauth.QEmployeeAuth employeeAuth;
 
     public final StringPath firstname = createString("firstname");
 
@@ -42,15 +49,24 @@ public class QEmployee extends EntityPathBase<Employee> {
     public final StringPath uid = createString("uid");
 
     public QEmployee(String variable) {
-        super(Employee.class, forVariable(variable));
+        this(Employee.class, forVariable(variable), INITS);
     }
 
     public QEmployee(Path<? extends Employee> path) {
-        super(path.getType(), path.getMetadata());
+        this(path.getType(), path.getMetadata(), PathInits.getFor(path.getMetadata(), INITS));
     }
 
     public QEmployee(PathMetadata metadata) {
-        super(Employee.class, metadata);
+        this(metadata, PathInits.getFor(metadata, INITS));
+    }
+
+    public QEmployee(PathMetadata metadata, PathInits inits) {
+        this(Employee.class, metadata, inits);
+    }
+
+    public QEmployee(Class<? extends Employee> type, PathMetadata metadata, PathInits inits) {
+        super(type, metadata, inits);
+        this.employeeAuth = inits.isInitialized("employeeAuth") ? new com.thinven.boot.domain.entity.employeeset.employeeauth.QEmployeeAuth(forProperty("employeeAuth"), inits.get("employeeAuth")) : null;
     }
 
 }

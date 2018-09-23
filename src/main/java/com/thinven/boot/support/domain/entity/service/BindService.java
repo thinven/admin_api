@@ -67,7 +67,7 @@ public class BindService<G> {
 			switch (keys.length) {
 			case 2:
 				Object child = getPropertyInObject(entity, keys[0]);
-				if (child != null) {
+				if (child != null && !value.isJsonNull()) {
 					doit(child, keys[1], value, entity, key);
 					// Method m = getMethod(child, keys[1]);
 					// callMethod(m, child, value, entity, key);
@@ -77,7 +77,8 @@ public class BindService<G> {
 				// 3depth deep....pass
 			}
 		} else {
-			doit(entity, key, value, entity, key);
+			if (!value.isJsonNull())
+				doit(entity, key, value, entity, key);
 		}
 	}
 

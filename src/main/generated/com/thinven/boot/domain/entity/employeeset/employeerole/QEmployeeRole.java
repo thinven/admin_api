@@ -56,7 +56,7 @@ public class QEmployeeRole extends EntityPathBase<EmployeeRole> {
 
     public QEmployeeRole(Class<? extends EmployeeRole> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.employee = inits.isInitialized("employee") ? new com.thinven.boot.domain.entity.employeeset.employee.QEmployee(forProperty("employee")) : null;
+        this.employee = inits.isInitialized("employee") ? new com.thinven.boot.domain.entity.employeeset.employee.QEmployee(forProperty("employee"), inits.get("employee")) : null;
         this.role = inits.isInitialized("role") ? new com.thinven.boot.domain.entity.roleset.role.QRole(forProperty("role")) : null;
     }
 

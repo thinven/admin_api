@@ -1,5 +1,7 @@
 package com.thinven.boot.domain.entity.employeeset.employee;
 
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -25,6 +27,8 @@ public class Employee extends EntityModel {
 	private String birthday;
 	@Column(name = "bcc_gender")
 	private Long gender;
+	@Column(name = "bcc_delete")
+	private Long delete;
 
 	//
 	@OneToOne(mappedBy = "employee")
@@ -44,6 +48,13 @@ public class Employee extends EntityModel {
 		this.setP1(p1);
 		this.setP2(p2);
 		this.setP3(p3);
+	}
+
+	public Employee(Map<String, Object> payload) {
+		this();
+		this.setP1(payload.get("p1").toString());
+		this.setP2(payload.get("p2").toString());
+		this.setP3(payload.get("p3").toString());
 	}
 
 	public Employee(String uid) {
@@ -106,6 +117,15 @@ public class Employee extends EntityModel {
 
 	public void setGender(Long gender) {
 		this.gender = gender;
+	}
+
+	@JsonIgnore
+	public Long getDelete() {
+		return delete;
+	}
+
+	public void setDelete(Long delete) {
+		this.delete = delete;
 	}
 
 	public String getId() {

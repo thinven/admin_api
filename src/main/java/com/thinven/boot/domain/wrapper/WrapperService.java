@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.thinven.boot.support.domain.entity.model.Message;
 import com.thinven.boot.support.domain.entity.service.AddService;
 import com.thinven.boot.support.domain.entity.service.CheckService;
+import com.thinven.boot.support.domain.entity.service.DeleteService;
 import com.thinven.boot.support.domain.entity.service.InfoService;
 import com.thinven.boot.support.domain.entity.service.ListService;
 import com.thinven.boot.support.domain.entity.service.SearchService;
@@ -29,7 +30,9 @@ public interface WrapperService<G> {
 
 	public Message<G> info(InfoService<G> infoService, G entity, HttpServletRequest request);
 
-	public Message<G> update(UpdateService<G> addService, G entity, HttpServletRequest request);
+	public Message<G> update(UpdateService<G> updateService, G entity, HttpServletRequest request);
+
+	public Message<G> delete(DeleteService<G> deleteService, G entity, HttpServletRequest request);
 
 	public Message<G> check(CheckService<G> checkService, G entity, HttpServletRequest request);
 

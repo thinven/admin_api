@@ -57,6 +57,8 @@ public class EmployeeRepositoryImpl extends QuerydslRepositorySupport implements
 		JPQLQuery<Employee> query = from(qe);
 		where.where(qe, query);
 
+		query.where(qe.delete.eq(20L));
+
 		if (entity.getFirstname() != null && entity.getFirstname().length() > 0) {
 			query.where(qe.firstname.startsWith(entity.getFirstname()));
 		}

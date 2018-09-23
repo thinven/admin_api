@@ -24,4 +24,9 @@ public class EmployeeValidator extends DomainValidator<Employee> {
 		return this;
 	}
 
+	public EmployeeValidator requiredUid() {
+		this.required(this.getParams().getUid(), "EMPLOYEE_UID");
+		return this;
+	}
+
 }
