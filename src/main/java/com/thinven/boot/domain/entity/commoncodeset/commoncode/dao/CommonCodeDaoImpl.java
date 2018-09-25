@@ -21,8 +21,8 @@ public class CommonCodeDaoImpl extends EntityDao<CommonCode> implements CommonCo
 	}
 
 	@Override
-	public List<CommonCode> listForCache(CommonCode commoncode) {
-		return this.commonCodeRepository.listForCache(commoncode);
+	public List<CommonCode> codes(String bcgu) {
+		return this.commonCodeRepository.codes(bcgu);
 	}
 
 	@Override

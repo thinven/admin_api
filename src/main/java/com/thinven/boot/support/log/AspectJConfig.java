@@ -1,4 +1,4 @@
-package com.thinven.boot.support.config;
+package com.thinven.boot.support.log;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

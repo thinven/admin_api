@@ -7,6 +7,6 @@ import com.thinven.boot.support.domain.entity.repository.ListRepository;
 
 public interface CommonCodeRepositoryA extends ListRepository<CommonCode> {
 
-	public List<CommonCode> listForCache(CommonCode commoncode);
+	public List<CommonCode> codes(String bcgu);
 
 }

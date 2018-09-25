@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeCacheService;
 import com.thinven.boot.domain.entity.employeeset.employee.Employee;
 import com.thinven.boot.domain.entity.employeeset.employee.dao.EmployeeDao;
 import com.thinven.boot.domain.entity.employeeset.employee.validator.EmployeeValidator;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.service.EmployeeAuthService;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.validator.EmployeeAuthValidator;
+import com.thinven.boot.support.constant.Codes;
 import com.thinven.boot.support.domain.entity.model.Message;
 import com.thinven.boot.support.domain.entity.service.BindService;
 
@@ -26,11 +28,15 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 	@Autowired
 	private EmployeeAuthValidator employeeAuthValidator;
 
+	@Autowired
+	private CommonCodeCacheService commonCodeCacheService;
+
 	@Override
 	public Message<Employee> list(Message<Employee> msg) {
 		if (msg.isOk()) {
 			msg.add("employeePages", msg.getParams().getPages(this.employeeDao.count(msg.getParams())));
 			msg.add("employeeList", this.employeeDao.list(msg.getParams()));
+			msg.add("genderCodes", this.commonCodeCacheService.codes(Codes.GENDER));
 		}
 		return msg;
 	}

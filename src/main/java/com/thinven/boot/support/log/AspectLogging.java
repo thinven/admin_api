@@ -1,4 +1,4 @@
-package com.thinven.boot.support.config;
+package com.thinven.boot.support.log;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
