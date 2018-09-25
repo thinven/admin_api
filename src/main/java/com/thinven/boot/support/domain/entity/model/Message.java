@@ -112,6 +112,16 @@ public class Message<G> implements MessageSourceAware {
 	}
 
 	/**
+	 * 클라이언트로 전송할 객체 버퍼에 담기.
+	 * 
+	 * @param key
+	 * @param value
+	 */
+	public Object get(String key) {
+		return modelMap.get(key);
+	}
+
+	/**
 	 * 클라이언트로 전송할 모델뷰 담기.
 	 * 
 	 * @return

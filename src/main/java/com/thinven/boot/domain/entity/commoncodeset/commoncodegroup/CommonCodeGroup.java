@@ -15,7 +15,7 @@ public class CommonCodeGroup extends EntityModel {
 	@Column(name = "bcg_uid")
 	private String uid;
 	private String name;
-	private Long order;
+	private Long ordered;
 	@Column(name = "bcc_use")
 	private Long use;
 	@Column(name = "bcc_cache")
@@ -31,6 +31,11 @@ public class CommonCodeGroup extends EntityModel {
 		this.setP1(p1);
 		this.setP2(p2);
 		this.setP3(p3);
+	}
+
+	public CommonCodeGroup(String bcgu) {
+		this();
+		this.uid = bcgu;
 	}
 
 	// Get & Set
@@ -52,12 +57,12 @@ public class CommonCodeGroup extends EntityModel {
 		this.name = name;
 	}
 
-	public Long getOrder() {
-		return order;
+	public Long getOrdered() {
+		return ordered;
 	}
 
-	public void setOrder(Long order) {
-		this.order = order;
+	public void setOrdered(Long ordered) {
+		this.ordered = ordered;
 	}
 
 	public Long getUse() {

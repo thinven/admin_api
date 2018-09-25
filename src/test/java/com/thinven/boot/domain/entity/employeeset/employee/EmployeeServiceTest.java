@@ -2,6 +2,8 @@ package com.thinven.boot.domain.entity.employeeset.employee;
 
 import javax.transaction.Transactional;
 
+//import org.hamcrest.CoreMatchers;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +22,25 @@ public class EmployeeServiceTest {
 	EmployeeService employeeService;
 
 	@Test
-	public void add() {
+	public void test() {
 		Message<Employee> msg = new Message<Employee>();
-		for (int i = 0; i < 10; i++) {
-			Employee employee = new Employee();
-			employee.setUid(ParamUtil.getUUID());
-			employee.setFirstname("first name" + i);
-			employee.setLastname("last name" + i);
-			employee.setBirthday("1974-02-16");
-			employee.setGender(10L);
-			employee.setPhone("010-2209-8121");
-			employee.setEmail("hihi@" + i);
+		Employee params = new Employee();
+		params.setUid(ParamUtil.getUUID());
+		params.setId("employeeAuthId");
+		params.setFirstname("employeeFirstname");
+		params.setLastname("employeeLastname");
+		params.setBirthday("employeeBirthday");
+		params.setGender(10L);
+		params.setPhone("employeePhone");
+		params.setEmail("employeeEmail");
+		params.setDelete(20L);
 
-			msg.setParams(employee);
-			msg = employeeService.add(msg);
-		}
+		// 등록 테스트.
+		msg.setParams(params);
+		msg = employeeService.add(msg);
+		Assert.assertTrue(msg.getDesc(), msg.isOk());
+		// Employee info = (Employee) msg.get("employee");
+		// Assert.assertThat(info.getId() + " != " + msg.getParams().getId(),
+		// info.getId(), CoreMatchers.is(msg.getParams().getId()));
 	}
 }

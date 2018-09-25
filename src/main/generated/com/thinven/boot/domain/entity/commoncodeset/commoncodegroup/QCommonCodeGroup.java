@@ -28,7 +28,7 @@ public class QCommonCodeGroup extends EntityPathBase<CommonCodeGroup> {
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Long> order = createNumber("order", Long.class);
+    public final NumberPath<Long> ordered = createNumber("ordered", Long.class);
 
     //inherited
     public final DateTimePath<java.util.Date> regdate = _super.regdate;

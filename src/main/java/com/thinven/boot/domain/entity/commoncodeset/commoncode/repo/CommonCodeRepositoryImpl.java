@@ -21,8 +21,7 @@ public class CommonCodeRepositoryImpl extends QuerydslRepositorySupport implemen
 	public List<CommonCode> list(CommonCode commoncode) {
 		return tmpl(commoncode, new WhereServiceImpl<CommonCode, QCommonCode>(commoncode) {
 			public void where(QCommonCode qcc, JPQLQuery<CommonCode> query) {
-				query.where(qcc.commoncodegroup.use.eq(CommonCodeService.YES));
-				query.where(qcc.use.eq(CommonCodeService.YES));
+				
 			}
 		});
 	}
@@ -31,8 +30,8 @@ public class CommonCodeRepositoryImpl extends QuerydslRepositorySupport implemen
 	public List<CommonCode> listForCache(CommonCode commoncode) {
 		return tmpl(commoncode, new WhereServiceImpl<CommonCode, QCommonCode>(commoncode) {
 			public void where(QCommonCode qcc, JPQLQuery<CommonCode> query) {
-				query.where(qcc.commoncodegroup.cache.eq(CommonCodeService.YES));
-				query.where(qcc.commoncodegroup.use.eq(CommonCodeService.YES));
+				query.where(qcc.commonCodeGroup.cache.eq(CommonCodeService.YES));
+				query.where(qcc.commonCodeGroup.use.eq(CommonCodeService.YES));
 				query.where(qcc.use.eq(CommonCodeService.YES));
 			}
 		});
@@ -45,12 +44,12 @@ public class CommonCodeRepositoryImpl extends QuerydslRepositorySupport implemen
 
 		where.where(qcc, query);
 
-		if (entity.getQs() != null && entity.getQs().length() > 0) {
-
+		if (entity.getCommonCodeGroup()!=null && entity.getCommonCodeGroup().getName() != null && entity.getCommonCodeGroup().getName().length() > 0) {
+			query.where(qcc.commonCodeGroup.name.startsWith(entity.getCommonCodeGroup().getName()));
 		}
 
-		query.orderBy(qcc.commoncodegroup.order.asc());
-		query.orderBy(qcc.order.asc());
+		query.orderBy(qcc.commonCodeGroup.name.asc());
+		query.orderBy(qcc.ordered.asc());
 
 		if (entity.getPage() > 0) {
 			long offset = (entity.getPage() - 1) * entity.getPageSize();

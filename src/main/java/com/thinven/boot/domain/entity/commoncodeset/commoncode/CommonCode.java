@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinven.boot.domain.entity.commoncodeset.commoncodegroup.CommonCodeGroup;
@@ -20,12 +21,17 @@ public class CommonCode extends EntityModel {
 	private String uid;
 	private Long code;
 	private String name;
-	private Long order;
+	private Long ordered;
 	@Column(name = "bcc_use")
 	private Long use;
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bcg_uid")
-	private CommonCodeGroup commoncodegroup;
+	private CommonCodeGroup commonCodeGroup;
+
+	@Transient
+	private String bcgu;
+	@Transient
+	private String bcgn;
 
 	// Constructor
 	public CommonCode() {
@@ -66,12 +72,12 @@ public class CommonCode extends EntityModel {
 		this.name = name;
 	}
 
-	public Long getOrder() {
-		return order;
+	public Long getOrdered() {
+		return ordered;
 	}
 
-	public void setOrder(Long order) {
-		this.order = order;
+	public void setOrdered(Long ordered) {
+		this.ordered = ordered;
 	}
 
 	public Long getUse() {
@@ -82,13 +88,30 @@ public class CommonCode extends EntityModel {
 		this.use = use;
 	}
 
-	@JsonIgnore
-	public CommonCodeGroup getCommoncodegroup() {
-		return commoncodegroup;
+	public CommonCodeGroup getCommonCodeGroup() {
+		return commonCodeGroup;
 	}
 
-	public void setCommoncodegroup(CommonCodeGroup commoncodegroup) {
-		this.commoncodegroup = commoncodegroup;
+	public void setCommonCodeGroup(CommonCodeGroup commonCodeGroup) {
+		this.commonCodeGroup = commonCodeGroup;
+	}
+
+	@JsonIgnore
+	public String getBcgu() {
+		return bcgu;
+	}
+
+	public void setBcgu(String bcgu) {
+		this.bcgu = bcgu;
+	}
+
+	@JsonIgnore
+	public String getBcgn() {
+		return bcgn;
+	}
+
+	public void setBcgn(String bcgn) {
+		this.bcgn = bcgn;
 	}
 
 }

@@ -26,14 +26,14 @@ public class QCommonCode extends EntityPathBase<CommonCode> {
 
     public final NumberPath<Long> code = createNumber("code", Long.class);
 
-    public final com.thinven.boot.domain.entity.commoncodeset.commoncodegroup.QCommonCodeGroup commoncodegroup;
+    public final com.thinven.boot.domain.entity.commoncodeset.commoncodegroup.QCommonCodeGroup commonCodeGroup;
 
     //inherited
     public final DateTimePath<java.util.Date> lastdate = _super.lastdate;
 
     public final StringPath name = createString("name");
 
-    public final NumberPath<Long> order = createNumber("order", Long.class);
+    public final NumberPath<Long> ordered = createNumber("ordered", Long.class);
 
     //inherited
     public final DateTimePath<java.util.Date> regdate = _super.regdate;
@@ -60,7 +60,7 @@ public class QCommonCode extends EntityPathBase<CommonCode> {
 
     public QCommonCode(Class<? extends CommonCode> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.commoncodegroup = inits.isInitialized("commoncodegroup") ? new com.thinven.boot.domain.entity.commoncodeset.commoncodegroup.QCommonCodeGroup(forProperty("commoncodegroup")) : null;
+        this.commonCodeGroup = inits.isInitialized("commonCodeGroup") ? new com.thinven.boot.domain.entity.commoncodeset.commoncodegroup.QCommonCodeGroup(forProperty("commonCodeGroup")) : null;
     }
 
 }

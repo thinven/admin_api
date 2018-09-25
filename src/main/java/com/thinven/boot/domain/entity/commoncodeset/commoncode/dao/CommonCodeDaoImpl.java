@@ -9,20 +9,26 @@ import com.thinven.boot.domain.entity.commoncodeset.commoncode.CommonCode;
 import com.thinven.boot.domain.entity.commoncodeset.commoncode.repo.CommonCodeRepository;
 import com.thinven.boot.support.domain.entity.dao.EntityDao;
 
-@Component("commoncodeDao")
+@Component("commonCodeDao")
 public class CommonCodeDaoImpl extends EntityDao<CommonCode> implements CommonCodeDao {
 
 	@Autowired
-	private CommonCodeRepository commoncodeRepository;
+	private CommonCodeRepository commonCodeRepository;
 
 	@Override
 	public List<CommonCode> list(CommonCode entity) {
-		return this.commoncodeRepository.findAll();
+		return this.commonCodeRepository.list(entity);
 	}
 
 	@Override
 	public List<CommonCode> listForCache(CommonCode commoncode) {
-		return this.commoncodeRepository.listForCache(commoncode);
+		return this.commonCodeRepository.listForCache(commoncode);
+	}
+
+	@Override
+	public CommonCode add(CommonCode entity) {
+		entity.init();
+		return this.commonCodeRepository.save(entity);
 	}
 
 }

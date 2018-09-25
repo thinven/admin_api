@@ -107,15 +107,14 @@ public class BindService<G> {
 		Method m = null;
 		try {
 			m = entity.getClass().getMethod("get" + ParamUtil.toFirstUpper(key), new Class[] {});
-			// Log.info(this, ParamUtil.toFirstUpper(key));
 		} catch (NoSuchMethodException e) {
-			Log.error(this, "BindService.getPropertyInObject() : " + e.toString());
+			Log.error(this, "1.BindService.getPropertyInObject() : " + e.toString());
 		}
 		if (m != null) {
 			try {
 				Object child = m.invoke(entity, new Object[] {});
 				if (child == null) {
-					String tmp = this.getClass().getPackage().getName().replace(".service", "");
+					String tmp = entity.getClass().getPackage().getName().replace(".service", "");
 					String prefix = tmp.substring(0, tmp.lastIndexOf(".") + 1);
 					child = Class.forName(prefix + key.toLowerCase() + "." + ParamUtil.toFirstUpper(key)).newInstance();
 					Method method = entity.getClass().getMethod("set" + ParamUtil.toFirstUpper(key), new Class[] { child.getClass() });
@@ -123,7 +122,7 @@ public class BindService<G> {
 				}
 				return child;
 			} catch (Exception e) {
-				Log.error(this, "BindService.getPropertyInObject() : " + e.toString());
+				Log.error(this, "2.BindService.getPropertyInObject() : " + e.toString());
 			}
 		}
 		return null;

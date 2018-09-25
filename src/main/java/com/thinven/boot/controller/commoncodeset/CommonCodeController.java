@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/commoncodes")
+@RequestMapping(value = "/commonCodes")
 @Api(tags = "공통코드")
 public class CommonCodeController {
 
@@ -26,13 +26,19 @@ public class CommonCodeController {
 	private WrapperService<CommonCode> wrapperService;
 
 	@Autowired
-	private CommonCodeService commoncodeService;
+	private CommonCodeService commonCodeService;
 
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	@ApiOperation(value = "공통코드 목록 조회", notes = "사이트내에서 사용하는 공통코드 목록을 조회하는 API.")
 	public ModelAndView list(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
-		CommonCode commoncode = new CommonCode(p1, p2, p3);
-		return this.wrapperService.list(this.commoncodeService, commoncode, request).toMAV();
+		CommonCode commonCode = new CommonCode(p1, p2, p3);
+		return this.wrapperService.list(this.commonCodeService, commonCode, request).toMAV();
 	}
 
+	@RequestMapping(method = RequestMethod.POST)
+	@ApiOperation(value = "공통코드 등록", notes = "사이트내에서 사용하는 공통코드를 등록하는 API.")
+	public ModelAndView add(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
+		CommonCode commonCode = new CommonCode(p1, p2, p3);
+		return this.wrapperService.add(this.commonCodeService, commonCode, request).toMAV();
+	}
 }

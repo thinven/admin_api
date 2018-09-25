@@ -36,6 +36,14 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 	}
 
 	@Override
+	public Message<Employee> info(Message<Employee> msg) {
+		if (msg.isOk()) {
+			msg.add("employee", this.employeeDao.info(msg.getParams()));
+		}
+		return msg;
+	}
+
+	@Override
 	public Message<Employee> add(Message<Employee> msg) {
 		msg = this.employeValidator.init(msg).required().result();
 		this.employeeAuthValidator.src(msg).required().duplicateId().existEmployeeAuth();

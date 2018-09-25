@@ -46,7 +46,7 @@ public class Log {
 	public static void info(Object obj, String msg) {
 		logger = LoggerFactory.getLogger(obj.getClass());
 		// if (logger.isDebugEnabled()) {
-		logger.info(" * @Message ==>> " + msg);
+		logger.info(" * @info ==>> " + msg);
 		// }
 	}
 

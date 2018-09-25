@@ -27,7 +27,7 @@ public class EmployeeDaoImpl extends EntityDao<Employee> implements EmployeeDao 
 
 	@Override
 	public Employee info(Employee entity) {
-		return this.employeeRepository.findById(entity.getUid()).get();
+		return this.employeeRepository.findById(entity.getUid()).orElse(null);
 	}
 
 	@Override

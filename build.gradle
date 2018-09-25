@@ -24,6 +24,35 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	querydslVersion = "4.1.4"
+	swagger2Version = "2.8.0"
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-aop') 
+	compile("org.springframework.boot:spring-boot-starter-security")
+	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	
+	compile("io.springfox:springfox-swagger2:${swagger2Version}")
+	compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
+	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.5'
+
+	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
+	compile("com.querydsl:querydsl-apt:${querydslVersion}")
+	compile("com.querydsl:querydsl-core:${querydslVersion}")
+	
+	compile("org.springframework:spring-context-support:5.0.7.RELEASE")
+	compile("javax.mail:mail:1.5.0-b01")
+	compile("org.apache.commons:commons-lang3:3.7")
+	compile("commons-configuration:commons-configuration:1.10")
+	compile("com.google.code.gson:gson:2.8.5")
+
+}
+
 configurations {
 	querydslapt
 }
@@ -61,33 +90,4 @@ compileGeneratedJava {
 
 clean {
 	delete sourceSets.generated.java.srcDirs.iterator().next()
-}
-
-ext {
-	querydslVersion = "4.1.4"
-	swagger2Version = "2.8.0"
-}
-
-dependencies {
-	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('org.springframework.boot:spring-boot-starter-aop') 
-	compile("org.springframework.boot:spring-boot-starter-security")
-	providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
-	
-	compile("io.springfox:springfox-swagger2:${swagger2Version}")
-	compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
-	compile group: 'org.mariadb.jdbc', name: 'mariadb-java-client', version: '2.2.5'
-
-	compile("com.querydsl:querydsl-jpa:${querydslVersion}")
-	compile("com.querydsl:querydsl-apt:${querydslVersion}")
-	compile("com.querydsl:querydsl-core:${querydslVersion}")
-	
-	compile("org.springframework:spring-context-support:5.0.7.RELEASE")
-	compile("javax.mail:mail:1.5.0-b01")
-	compile("org.apache.commons:commons-lang3:3.7")
-	compile("commons-configuration:commons-configuration:1.10")
-	compile("com.google.code.gson:gson:2.8.5")
-
 }
