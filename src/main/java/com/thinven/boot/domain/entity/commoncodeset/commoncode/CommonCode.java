@@ -1,5 +1,7 @@
 package com.thinven.boot.domain.entity.commoncodeset.commoncode;
 
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -43,6 +45,13 @@ public class CommonCode extends EntityModel {
 		this.setP1(p1);
 		this.setP2(p2);
 		this.setP3(p3);
+	}
+
+	public CommonCode(Map<String, Object> payload) {
+		this();
+		this.setP1(payload.get("p1").toString());
+		this.setP2(payload.get("p2").toString());
+		this.setP3(payload.get("p3").toString());
 	}
 
 	// Get & Set

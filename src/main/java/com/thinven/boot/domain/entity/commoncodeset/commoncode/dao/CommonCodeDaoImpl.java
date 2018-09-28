@@ -26,6 +26,11 @@ public class CommonCodeDaoImpl extends EntityDao<CommonCode> implements CommonCo
 	}
 
 	@Override
+	public CommonCode info(CommonCode entity) {
+		return this.commonCodeRepository.findById(entity.getUid()).orElse(null);
+	}
+
+	@Override
 	public CommonCode add(CommonCode entity) {
 		entity.init();
 		return this.commonCodeRepository.save(entity);

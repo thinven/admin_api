@@ -30,6 +30,7 @@ public class CommonCodeRepositoryImpl extends QuerydslRepositorySupport implemen
 		QCommonCode qcc = QCommonCode.commonCode;
 		JPQLQuery<CommonCode> query = from(qcc);
 		query.where(qcc.commonCodeGroup.uid.eq(bcgu));
+		query.orderBy(qcc.ordered.asc());
 		return query.fetchResults().getResults();
 	}
 

@@ -1,5 +1,7 @@
 package com.thinven.boot.domain.entity.commoncodeset.commoncodegroup;
 
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,6 +33,13 @@ public class CommonCodeGroup extends EntityModel {
 		this.setP1(p1);
 		this.setP2(p2);
 		this.setP3(p3);
+	}
+
+	public CommonCodeGroup(Map<String, Object> payload) {
+		this();
+		this.setP1(payload.get("p1").toString());
+		this.setP2(payload.get("p2").toString());
+		this.setP3(payload.get("p3").toString());
 	}
 
 	public CommonCodeGroup(String bcgu) {

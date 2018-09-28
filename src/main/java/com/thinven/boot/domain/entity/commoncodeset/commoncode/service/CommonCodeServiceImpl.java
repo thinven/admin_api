@@ -54,4 +54,29 @@ public class CommonCodeServiceImpl extends BindService<CommonCode> implements Co
 		return msg;
 	}
 
+	@Override
+	public Message<CommonCode> update(Message<CommonCode> msg) {
+		msg = this.commonCodeValidator.init(msg).required().result();
+
+		if (msg.isOk()) {
+			CommonCode info = this.commonCodeDao.info(msg.getParams());
+			if (info != null) {
+				CommonCodeGroup codeGroupInfo = this.commonCodeGroupService.info(msg.getParams());
+				if (codeGroupInfo != null) {
+					msg.getParams().setCommonCodeGroup(codeGroupInfo);
+					info.setCommonCodeGroup(codeGroupInfo);
+				} else {
+					info.setCommonCodeGroup(this.commonCodeGroupService.add(msg.getParams()));
+				}
+				info.setCode(msg.getParams().getCode());
+				info.setName(msg.getParams().getName());
+				info.setOrdered(msg.getParams().getOrdered());
+				info.setUse(msg.getParams().getUse());
+				msg.add("commonCode", info);
+				this.commonCodeCacheService.clearCache(info.getCommonCodeGroup().getUid());
+			}
+		}
+		return msg;
+	}
+
 }

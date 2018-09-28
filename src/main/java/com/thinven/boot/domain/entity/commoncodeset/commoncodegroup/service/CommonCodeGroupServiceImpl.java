@@ -38,4 +38,17 @@ public class CommonCodeGroupServiceImpl extends BindService<CommonCodeGroup> imp
 		return this.commonCodeGroupDao.add(params);
 	}
 
+	@Override
+	public Message<CommonCodeGroup> update(Message<CommonCodeGroup> msg) {
+		if (msg.isOk()) {
+			CommonCodeGroup info = this.commonCodeGroupDao.info(msg.getParams());
+			if (info != null) {
+				info.setName(msg.getParams().getName());
+				info.setUse(msg.getParams().getUse());
+				msg.add("commonCodeGroup", info);
+			}
+		}
+		return msg;
+	}
+
 }

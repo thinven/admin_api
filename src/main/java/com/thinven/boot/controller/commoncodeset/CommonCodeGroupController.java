@@ -1,10 +1,12 @@
 package com.thinven.boot.controller.commoncodeset;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,4 +37,10 @@ public class CommonCodeGroupController {
 		return this.wrapperService.list(this.commonCodeGroupService, commonCodeGroup, request).toMAV();
 	}
 
+	@RequestMapping(method = RequestMethod.PATCH)
+	@ApiOperation(value = "공통코드그룹 수정", notes = "사이트내에서 사용하는 공통코드그룹을 수정하는 API.")
+	public ModelAndView update(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws IOException {
+		CommonCodeGroup commonCodeGroup = new CommonCodeGroup(payload);
+		return this.wrapperService.update(this.commonCodeGroupService, commonCodeGroup, request).toMAV();
+	}
 }

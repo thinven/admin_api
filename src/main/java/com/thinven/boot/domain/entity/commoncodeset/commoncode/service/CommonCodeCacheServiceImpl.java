@@ -27,8 +27,8 @@ public class CommonCodeCacheServiceImpl implements CommonCodeCacheService {
 		List<Map<String, String>> codeset = new ArrayList<>();
 		for (CommonCode info : list) {
 			Map<String, String> map = new HashMap<>();
-			map.put("code", info.getCode() + "");
-			map.put("name", info.getName());
+			map.put("value", info.getCode() + "");
+			map.put("label", info.getName());
 			map.put("ordered", info.getOrdered() + "");
 			codeset.add(map);
 		}
