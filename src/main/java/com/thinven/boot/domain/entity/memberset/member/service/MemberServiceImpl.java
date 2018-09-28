@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeService;
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.memberset.member.Member;
 import com.thinven.boot.domain.entity.memberset.member.dao.MemberDao;
 import com.thinven.boot.support.domain.entity.model.MemberModel;
@@ -153,7 +153,7 @@ public class MemberServiceImpl extends BindService<Member> implements MemberServ
 	private Message<Member> goodbye(Message<Member> msg) {
 		Member info = msg.getInfo();
 		if (info != null) {
-			info.setGoodbye(CommonCodeService.YES);
+			info.setGoodbye(CC.YES);
 			info.setGoodbyetime(DateUtil.add(new Date(), MemberService.GOODBYE_DAYS));
 		}
 		return msg;
@@ -162,7 +162,7 @@ public class MemberServiceImpl extends BindService<Member> implements MemberServ
 	private Message<Member> goodbyecancel(Message<Member> msg) {
 		Member info = msg.getInfo();
 		if (info != null) {
-			info.setGoodbye(CommonCodeService.NO);
+			info.setGoodbye(CC.NO);
 			info.setGoodbyetime(DateUtil.add(new Date(), MemberService.FOREVER_DAYS));
 		}
 		return msg;

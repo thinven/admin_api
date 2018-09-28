@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import com.querydsl.jpa.JPQLQuery;
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.employeeset.employee.Employee;
 import com.thinven.boot.domain.entity.employeeset.employee.QEmployee;
 import com.thinven.boot.support.domain.entity.repository.WhereService;
@@ -57,7 +58,7 @@ public class EmployeeRepositoryImpl extends QuerydslRepositorySupport implements
 		JPQLQuery<Employee> query = from(qe);
 		where.where(qe, query);
 
-		query.where(qe.delete.eq(20L));
+		query.where(qe.delete.eq(CC.NO));
 
 		if (entity.getFirstname() != null && entity.getFirstname().length() > 0) {
 			query.where(qe.firstname.startsWith(entity.getFirstname()));

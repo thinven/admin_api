@@ -29,6 +29,7 @@ public class Employee extends EntityModel {
 	private Long gender;
 	@Column(name = "bcc_delete")
 	private Long delete;
+	private String rolejson;
 
 	//
 	@OneToOne(mappedBy = "employee")
@@ -126,6 +127,14 @@ public class Employee extends EntityModel {
 
 	public void setDelete(Long delete) {
 		this.delete = delete;
+	}
+
+	public String getRolejson() {
+		return rolejson;
+	}
+
+	public void setRolejson(String rolejson) {
+		this.rolejson = rolejson;
 	}
 
 	public String getId() {

@@ -9,7 +9,4 @@ import com.thinven.boot.support.domain.entity.service.UpdateService;
 
 public interface EmployeeService extends ListService<Employee>, InfoService<Employee>, AddService<Employee>, UpdateService<Employee>, DeleteService<Employee> {
 
-	public static final long YES = 1;
-	public static final long NO = 0;
-
 }

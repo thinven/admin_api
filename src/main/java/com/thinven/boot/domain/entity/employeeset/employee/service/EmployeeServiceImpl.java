@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeCacheService;
 import com.thinven.boot.domain.entity.employeeset.employee.Employee;
 import com.thinven.boot.domain.entity.employeeset.employee.dao.EmployeeDao;
@@ -77,6 +78,7 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 				info.setGender(msg.getParams().getGender());
 				info.setPhone(msg.getParams().getPhone());
 				info.setEmail(msg.getParams().getEmail());
+				info.setRolejson(msg.getParams().getRolejson());
 				msg.add("employee", info);
 
 				msg = this.employeeAuthService.update(msg, msg.getParams());
@@ -92,7 +94,7 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 		if (msg.isOk()) {
 			Employee info = this.employeeDao.info(msg.getParams());
 			if (info != null) {
-				info.setDelete(10L);
+				info.setDelete(CC.YES);
 				msg.add("employee", info);
 			}
 		}

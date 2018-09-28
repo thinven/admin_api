@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.util.StringUtils;
 
 import com.querydsl.jpa.JPQLQuery;
-import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeService;
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.memberset.member.Member;
 import com.thinven.boot.domain.entity.memberset.member.QMember;
 import com.thinven.boot.support.domain.entity.repository.WhereService;
@@ -44,8 +44,8 @@ public class MemberRepositoryImpl extends QuerydslRepositorySupport implements M
 			query.where(qm.rk.eq(member.getRk()));
 		}
 
-		query.where(qm.goodbye.eq(CommonCodeService.NO)
-				.or(qm.goodbye.eq(CommonCodeService.YES).and(qm.goodbyetime.gt(new Date()))));
+		query.where(qm.goodbye.eq(CC.NO)
+				.or(qm.goodbye.eq(CC.YES).and(qm.goodbyetime.gt(new Date()))));
 
 		return query.fetchFirst();
 	}

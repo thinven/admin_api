@@ -63,8 +63,12 @@ public class CommonCodeServiceImpl extends BindService<CommonCode> implements Co
 			if (info != null) {
 				CommonCodeGroup codeGroupInfo = this.commonCodeGroupService.info(msg.getParams());
 				if (codeGroupInfo != null) {
-					msg.getParams().setCommonCodeGroup(codeGroupInfo);
-					info.setCommonCodeGroup(codeGroupInfo);
+					// 그룹이 바뀐경우 이전과 이후 그룹 모두 캐시를 클리어.
+					if (!info.getCommonCodeGroup().getUid().equals(msg.getParams().getBcgu())) {
+						this.commonCodeCacheService.clearCache(info.getCommonCodeGroup().getUid());
+						msg.getParams().setCommonCodeGroup(codeGroupInfo);
+						info.setCommonCodeGroup(codeGroupInfo);
+					}
 				} else {
 					info.setCommonCodeGroup(this.commonCodeGroupService.add(msg.getParams()));
 				}

@@ -132,11 +132,18 @@ public class BindService<G> {
 		Method m = null;
 		try {
 			m = obj.getClass().getMethod("set" + ParamUtil.toFirstUpper(key), new Class[] { String.class });
-			m.invoke(obj, value.getAsString());
+			String param = "";
+			if (value.isJsonArray())
+				param = value.getAsJsonArray().toString();
+			else if (value.isJsonObject())
+				param = value.getAsJsonObject().toString();
+			else
+				param = value.getAsString();
+			m.invoke(obj, param);
 			if ("pw".equals(logprop) || "pw2".equals(logprop) || "npw".equals(logprop) || "npw2".equals(logprop)) {
-				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + SHA512.getDigest(value.getAsString()));
+				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + SHA512.getDigest(param));
 			} else {
-				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + value.getAsString());
+				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + param);
 			}
 		} catch (NoSuchMethodException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			try {

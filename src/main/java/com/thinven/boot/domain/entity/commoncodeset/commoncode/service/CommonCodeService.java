@@ -7,7 +7,4 @@ import com.thinven.boot.support.domain.entity.service.UpdateService;
 
 public interface CommonCodeService extends ListService<CommonCode>, AddService<CommonCode>, UpdateService<CommonCode> {
 
-	public static final long YES = 1;
-	public static final long NO = 0;
-
 }

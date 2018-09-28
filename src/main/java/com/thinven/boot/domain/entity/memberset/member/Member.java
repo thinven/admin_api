@@ -10,7 +10,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeService;
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.support.domain.entity.model.MemberModel;
 
 @Entity
@@ -107,7 +107,7 @@ public class Member extends MemberModel {
 	}
 
 	public boolean isLogin() {
-		return !"".equals(this.getUid()) && this.goodbye == CommonCodeService.NO;
+		return !"".equals(this.getUid()) && this.goodbye == CC.NO;
 	}
 
 	@JsonIgnore

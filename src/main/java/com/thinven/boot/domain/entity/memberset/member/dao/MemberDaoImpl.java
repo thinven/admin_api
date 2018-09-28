@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.thinven.boot.domain.entity.commoncodeset.commoncode.service.CommonCodeService;
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.memberset.member.Member;
 import com.thinven.boot.domain.entity.memberset.member.repo.MemberRepository;
 import com.thinven.boot.domain.entity.memberset.member.service.MemberService;
@@ -31,7 +31,7 @@ public class MemberDaoImpl extends EntityDao<Member> implements MemberDao {
 		member.setPw(SHA512.getDigest(member.getPw()));
 		member.setNick(this.newNick());
 		member.setRk(this.newRk());
-		member.setGoodbye(CommonCodeService.NO);
+		member.setGoodbye(CC.NO);
 		member.setGoodbyetime(DateUtil.add(new Date(), MemberService.FOREVER_DAYS));
 		return this.memberRepository.save(member);
 	}

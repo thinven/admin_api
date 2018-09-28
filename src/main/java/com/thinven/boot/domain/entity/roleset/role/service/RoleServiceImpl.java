@@ -20,7 +20,7 @@ public class RoleServiceImpl extends BindService<Role> implements RoleService {
 	@Override
 	public Message<Role> list(Message<Role> msg) {
 		if (msg.isOk()) {
-			msg.add("rolelist", this.roleDao.list(msg.getParams()));
+			msg.add("roleList", this.roleDao.list(msg.getParams()));
 		}
 		return msg;
 	}

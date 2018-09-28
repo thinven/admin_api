@@ -6,7 +6,4 @@ import com.thinven.boot.support.domain.entity.service.ListService;
 
 public interface RoleService extends ListService<Role>, AddService<Role> {
 
-	public static final long YES = 1;
-	public static final long NO = 0;
-
 }

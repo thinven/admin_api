@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.thinven.boot.domain.entity.commoncodeset.commoncode.CC;
 import com.thinven.boot.domain.entity.employeeset.employee.Employee;
 import com.thinven.boot.domain.entity.employeeset.employee.repo.EmployeeRepository;
 import com.thinven.boot.support.domain.entity.dao.EntityDao;
@@ -33,7 +34,7 @@ public class EmployeeDaoImpl extends EntityDao<Employee> implements EmployeeDao 
 	@Override
 	public Employee add(Employee entity) {
 		entity.init();
-		entity.setDelete(20L);
+		entity.setDelete(CC.NO);
 		return this.employeeRepository.save(entity);
 	}
 
