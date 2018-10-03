@@ -5,4 +5,8 @@ import com.thinven.boot.support.domain.entity.dao.ListDao;
 
 public interface RoleDao extends ListDao<Role> {
 
+	Role infoByName(String name);
+
+	Role add(String name);
+
 }

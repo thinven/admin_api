@@ -17,7 +17,20 @@ public class RoleDaoImpl extends EntityDao<Role> implements RoleDao {
 
 	@Override
 	public List<Role> list(Role entity) {
-		return this.roleRepository.findAll();
+		return this.roleRepository.list(entity);
+	}
+
+	@Override
+	public Role infoByName(String name) {
+		return this.roleRepository.findByName(name);
+	}
+
+	@Override
+	public Role add(String name) {
+		Role entity = new Role();
+		entity.init();
+		entity.setName(name);
+		return this.roleRepository.save(entity);
 	}
 
 }

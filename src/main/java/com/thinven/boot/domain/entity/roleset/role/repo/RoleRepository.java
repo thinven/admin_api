@@ -7,4 +7,6 @@ import com.thinven.boot.domain.entity.roleset.role.Role;
 
 public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role>, RoleRepositoryA {
 
+	Role findByName(String name);
+
 }

@@ -19,24 +19,24 @@ public class RoleRepositoryImpl extends QuerydslRepositorySupport implements Rol
 	@Override
 	public List<Role> list(Role role) {
 		return tmpl(role, new WhereServiceImpl<Role, QRole>(role) {
-			public void where(QRole qcc, JPQLQuery<Role> query) {
+			public void where(QRole qr, JPQLQuery<Role> query) {
 
 			}
 		});
 	}
 
 	private List<Role> tmpl(Role entity, WhereService<Role, QRole> where) {
-		QRole qcc = QRole.role;
+		QRole qr = QRole.role;
 
-		JPQLQuery<Role> query = from(qcc);
+		JPQLQuery<Role> query = from(qr);
 
-		where.where(qcc, query);
+		where.where(qr, query);
 
-		if (entity.getQs() != null && entity.getQs().length() > 0) {
-
+		if (entity.getName() != null && entity.getName().length() > 0) {
+			query.where(qr.name.startsWith(entity.getName()));
 		}
 
-		query.orderBy(qcc.lastdate.asc());
+		query.orderBy(qr.lastdate.asc());
 
 		if (entity.getPage() > 0) {
 			long offset = (entity.getPage() - 1) * entity.getPageSize();

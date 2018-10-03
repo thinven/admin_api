@@ -11,6 +11,7 @@ import com.thinven.boot.domain.entity.employeeset.employee.dao.EmployeeDao;
 import com.thinven.boot.domain.entity.employeeset.employee.validator.EmployeeValidator;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.service.EmployeeAuthService;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.validator.EmployeeAuthValidator;
+import com.thinven.boot.domain.entity.roleset.role.service.RoleService;
 import com.thinven.boot.support.constant.Codes;
 import com.thinven.boot.support.domain.entity.model.Message;
 import com.thinven.boot.support.domain.entity.service.BindService;
@@ -31,6 +32,9 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 
 	@Autowired
 	private CommonCodeCacheService commonCodeCacheService;
+
+	@Autowired
+	private RoleService roleService;
 
 	@Override
 	public Message<Employee> list(Message<Employee> msg) {
@@ -56,6 +60,7 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 		this.employeeAuthValidator.src(msg).required().duplicateId().existEmployeeAuth();
 
 		if (msg.isOk()) {
+			msg = this.roleService.makeJson(msg);
 			Employee info = this.employeeDao.add(msg.getParams());
 			msg.add("employee", info);
 
@@ -70,6 +75,7 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 		this.employeeAuthValidator.src(msg).required().duplicateId();
 
 		if (msg.isOk()) {
+			msg = this.roleService.makeJson(msg);
 			Employee info = this.employeeDao.info(msg.getParams());
 			if (info != null) {
 				info.setFirstname(msg.getParams().getFirstname());
