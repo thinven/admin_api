@@ -12,4 +12,6 @@ public interface EmployeeAuthRepository extends JpaRepository<EmployeeAuth, Stri
 
 	EmployeeAuth findByEmployee(Employee employee);
 
+	EmployeeAuth findByIdAndPw(String id, String pw);
+
 }

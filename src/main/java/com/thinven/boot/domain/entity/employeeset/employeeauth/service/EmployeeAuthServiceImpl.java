@@ -14,7 +14,11 @@ import com.thinven.boot.domain.entity.employeeset.employeeauth.SecurityEmployee;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.dao.EmployeeAuthDao;
 import com.thinven.boot.support.domain.entity.model.MemberModel;
 import com.thinven.boot.support.domain.entity.model.Message;
+import com.thinven.boot.support.domain.entity.model.SecurityModel;
 import com.thinven.boot.support.domain.entity.service.BindService;
+import com.thinven.boot.support.security.RsaUtil;
+import com.thinven.boot.support.util.DateUtil;
+import com.thinven.boot.support.util.ParamUtil;
 
 @Service
 @Transactional
@@ -29,9 +33,13 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 	}
 
 	@Override
-	public Message<EmployeeAuth> list(Message<EmployeeAuth> msg) {
+	public Message<EmployeeAuth> info(Message<EmployeeAuth> msg) {
 		if (msg.isOk()) {
-			msg.add("employeeAuthlist", this.employeeAuthDao.list(msg.getParams()));
+			EmployeeAuth info = this.employeeAuthDao.infoByIdAndPw(msg.getParams());
+			if (info != null) {
+				this.setAuth(msg, info);
+			} else
+				msg.setMsg("WAR_MSG_NOT_EQUALS", "EMPLOYEEAUTH");
 		}
 		return msg;
 	}
@@ -60,4 +68,21 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 		return msg;
 	}
 
+	private void setAuth(Message<EmployeeAuth> msg, EmployeeAuth info) {
+		info.setRk(this.newRk());
+		info.setLastdate(DateUtil.now());
+		msg.add("rk", info.getRk());
+		msg.add("id", info.getId());
+		msg.add("firstname", info.getEmployee().getFirstname());
+		msg.add("lastname", info.getEmployee().getLastname());
+
+		SecurityModel model = RsaUtil.generateKey();
+		info.setPk(model.getPrivateKey());
+		msg.add("pkm2", model.getPkm());
+		msg.add("pke2", model.getPke());
+	}
+
+	private String newRk() {
+		return ParamUtil.getRandomKey(8121, 32);
+	}
 }

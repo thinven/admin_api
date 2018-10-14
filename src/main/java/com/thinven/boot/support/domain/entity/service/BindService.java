@@ -50,7 +50,8 @@ public class BindService<G> {
 		}
 		// p1 에서 실자료 까기.
 		String realdata = AesUtil.decrypt(aeskeys, getP(1, entity));
-		Log.param(this, realdata);
+		if (realdata.indexOf("\"pw\"") == -1)
+			Log.param(this, realdata);
 		JsonObject json = new JsonParser().parse(realdata).getAsJsonObject();
 
 		Set<Map.Entry<String, JsonElement>> entries = json.entrySet();
@@ -141,7 +142,9 @@ public class BindService<G> {
 				param = value.getAsString();
 			m.invoke(obj, param);
 			if ("pw".equals(logprop) || "pw2".equals(logprop) || "npw".equals(logprop) || "npw2".equals(logprop)) {
-				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + SHA512.getDigest(param));
+				String pw = SHA512.getDigest(param);
+				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + pw);
+				m.invoke(obj, pw);
 			} else {
 				Log.binding(this, logobj.getClass().getSimpleName() + "." + logprop + " : (String) " + param);
 			}

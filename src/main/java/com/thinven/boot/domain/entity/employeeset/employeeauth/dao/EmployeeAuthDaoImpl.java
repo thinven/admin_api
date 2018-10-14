@@ -1,7 +1,5 @@
 package com.thinven.boot.domain.entity.employeeset.employeeauth.dao;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,11 +16,6 @@ public class EmployeeAuthDaoImpl extends EntityDao<EmployeeAuth> implements Empl
 	private EmployeeAuthRepository employeeAuthRepository;
 
 	@Override
-	public List<EmployeeAuth> list(EmployeeAuth entity) {
-		return this.employeeAuthRepository.findAll();
-	}
-
-	@Override
 	public Long count(EmployeeAuth entity) {
 		return this.employeeAuthRepository.count(entity);
 	}
@@ -30,6 +23,11 @@ public class EmployeeAuthDaoImpl extends EntityDao<EmployeeAuth> implements Empl
 	@Override
 	public Long countDuplicateId(EmployeeAuth entity) {
 		return this.employeeAuthRepository.countDuplicateId(entity);
+	}
+
+	@Override
+	public EmployeeAuth infoByIdAndPw(EmployeeAuth employeeAuth) {
+		return this.employeeAuthRepository.findByIdAndPw(employeeAuth.getId(), employeeAuth.getPw());
 	}
 
 	@Override

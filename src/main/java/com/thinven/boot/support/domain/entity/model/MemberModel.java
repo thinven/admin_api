@@ -31,6 +31,7 @@ public class MemberModel extends RegTimeEntityModel {
 	}
 
 	// Get & Set
+	@JsonIgnore
 	public String getUid() {
 		return uid;
 	}
@@ -47,6 +48,7 @@ public class MemberModel extends RegTimeEntityModel {
 		this.id = id;
 	}
 
+	@JsonIgnore
 	public String getPw() {
 		return pw;
 	}
@@ -55,7 +57,6 @@ public class MemberModel extends RegTimeEntityModel {
 		this.pw = pw;
 	}
 
-	@JsonIgnore
 	public String getRk() {
 		return rk;
 	}
@@ -64,6 +65,7 @@ public class MemberModel extends RegTimeEntityModel {
 		this.rk = rk;
 	}
 
+	@JsonIgnore
 	public String getPk() {
 		return pk;
 	}
