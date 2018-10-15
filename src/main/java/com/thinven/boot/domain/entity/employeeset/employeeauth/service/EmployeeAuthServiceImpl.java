@@ -1,16 +1,11 @@
 package com.thinven.boot.domain.entity.employeeset.employeeauth.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.thinven.boot.domain.entity.employeeset.employee.Employee;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.EmployeeAuth;
-import com.thinven.boot.domain.entity.employeeset.employeeauth.SecurityEmployee;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.dao.EmployeeAuthDao;
 import com.thinven.boot.support.domain.entity.model.MemberModel;
 import com.thinven.boot.support.domain.entity.model.Message;
@@ -27,10 +22,8 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 	@Autowired
 	private EmployeeAuthDao employeeAuthDao;
 
-	@Override
-	public UserDetails loadUserByUsername(String rk) throws UsernameNotFoundException {
-		return Optional.ofNullable(employeeAuthDao.infoByRk(rk)).filter(ea -> ea != null).map(ea -> new SecurityEmployee(ea)).get();
-	}
+	@Autowired
+	private EmployeeAuthCacheService employeeAuthCacheService;
 
 	@Override
 	public Message<EmployeeAuth> info(Message<EmployeeAuth> msg) {
@@ -38,6 +31,7 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 			EmployeeAuth info = this.employeeAuthDao.infoByIdAndPw(msg.getParams());
 			if (info != null) {
 				this.setAuth(msg, info);
+				this.employeeAuthCacheService.clearCache(msg.getParams().getRk());
 			} else
 				msg.setMsg("WAR_MSG_NOT_EQUALS", "EMPLOYEEAUTH");
 		}
@@ -63,6 +57,7 @@ public class EmployeeAuthServiceImpl extends BindService<EmployeeAuth> implement
 			EmployeeAuth info = this.employeeAuthDao.infoByEmployee(employee);
 			if (info != null) {
 				info.setId(employee.getId());
+				this.employeeAuthCacheService.clearCache(info.getRk());
 			}
 		}
 		return msg;
