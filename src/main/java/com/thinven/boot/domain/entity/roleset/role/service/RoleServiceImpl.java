@@ -50,8 +50,6 @@ public class RoleServiceImpl extends BindService<Role> implements RoleService {
 				obj.put("value", info.getUid());
 				out.put(obj);
 			}
-			Log.info(this, out.toString());
-			Log.info(this, msg.getParams().getRolejson());
 			msg.getParams().setRolejson(out.toString());
 		} catch (JSONException e) {
 			msg.setMsg("WAR_MSG_CANNOT_PROCESS", "EMPLOYEE_ROLEJSON");

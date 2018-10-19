@@ -22,10 +22,10 @@ public abstract class PageModel extends SecurityModel {
 
 	public long getPages(long count) {
 		long pages = 0;
-		if (count == this.pageSize) {
-			pages = count / this.pageSize;
-		} else {
+		if (count % this.pageSize > 0) {
 			pages = count / this.pageSize + 1;
+		} else {
+			pages = count / this.pageSize;
 		}
 		return pages;
 	}

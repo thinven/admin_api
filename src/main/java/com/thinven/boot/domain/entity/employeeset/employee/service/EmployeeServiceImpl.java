@@ -62,9 +62,10 @@ public class EmployeeServiceImpl extends BindService<Employee> implements Employ
 		if (msg.isOk()) {
 			msg = this.roleService.makeJson(msg);
 			Employee info = this.employeeDao.add(msg.getParams());
-			msg.add("employee", info);
 
 			msg = employeeAuthService.add(msg, info);
+
+			msg.add("employee", info);
 		}
 		return msg;
 	}

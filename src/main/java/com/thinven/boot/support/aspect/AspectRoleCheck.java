@@ -11,9 +11,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.thinven.boot.domain.entity.employeeset.employeeauth.service.EmployeeAuthCacheService;
 import com.thinven.boot.support.constant.Roles;
+import com.thinven.boot.support.log.Log;
 
 @Aspect
 @Component
@@ -24,7 +26,7 @@ public class AspectRoleCheck {
 
 	@Around("execution(* *..*Controller.*(..))")
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
-		Object retValue = null;
+		Object result = null;
 		try {
 			HttpServletRequest request = getRequest(joinPoint);
 			String uri = request.getRequestURI();
@@ -38,17 +40,28 @@ public class AspectRoleCheck {
 				if (uri.matches(uriPattern)) {
 					String rolePattern = rolesMap.get(uriPattern);
 					if (roles.matches(rolePattern)) {
-						retValue = joinPoint.proceed();
+						result = joinPoint.proceed();
 						break;
 					} else {
-						break;// uri매칭이 참인 경우는 다른 uri못타게 하기.
+						Log.info(this, "role matching fail");
+						Log.info(this, "rk : " + rk);
+						Log.info(this, "roles : " + roles);
+						Log.info(this, "uriPattern : " + uriPattern);
+						Log.info(this, "rolePattern : " + rolePattern);
+						break;
 					}
 				}
+			}
+			if (result == null) {
+				ModelAndView mav = new ModelAndView("jsonView");
+				mav.addObject("key", "WAR_MSG_NEED_ROLE");
+				mav.addObject("desc", "운영자의 인증이 받으셔야 합니다.");
+				result = mav;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return retValue;
+		return result;
 	}
 
 	private Map<String, String> getRoles() {
