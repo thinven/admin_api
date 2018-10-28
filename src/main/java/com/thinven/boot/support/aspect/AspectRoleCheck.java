@@ -29,34 +29,41 @@ public class AspectRoleCheck {
 		Object result = null;
 		try {
 			HttpServletRequest request = getRequest(joinPoint);
-			String uri = request.getRequestURI();
-			String rk = request.getHeader("x-auth-token");
-			String roles = "";
-			if (rk != null && !"".equals(rk))
-				roles = this.employeeAuthCacheService.infoByRkForAop(rk);
+			if (request != null) {
+				String uri = request.getRequestURI();
+				String rk = request.getHeader("x-auth-token");
+				String roles = "";
+				if (rk != null && !"".equals(rk))
+					roles = this.employeeAuthCacheService.infoByRkForAop(rk);
 
-			Map<String, String> rolesMap = getRoles();
-			for (String uriPattern : rolesMap.keySet()) {
-				if (uri.matches(uriPattern)) {
-					String rolePattern = rolesMap.get(uriPattern);
-					if (roles.matches(rolePattern)) {
-						result = joinPoint.proceed();
-						break;
-					} else {
-						Log.info(this, "role matching fail");
-						Log.info(this, "rk : " + rk);
-						Log.info(this, "roles : " + roles);
-						Log.info(this, "uriPattern : " + uriPattern);
-						Log.info(this, "rolePattern : " + rolePattern);
-						break;
+				Map<String, String> rolesMap = getRoles();
+				for (String uriPattern : rolesMap.keySet()) {
+					if (uri.matches(uriPattern)) {
+						String rolePattern = rolesMap.get(uriPattern);
+						if (roles.matches(rolePattern)) {
+							result = joinPoint.proceed();
+							break;
+						} else {
+							Log.info(this, "role matching fail");
+							Log.info(this, "rk : " + rk);
+							Log.info(this, "roles : " + roles);
+							Log.info(this, "uriPattern : " + uriPattern);
+							Log.info(this, "rolePattern : " + rolePattern);
+							break;
+						}
 					}
 				}
-			}
-			if (result == null) {
-				ModelAndView mav = new ModelAndView("jsonView");
-				mav.addObject("key", "WAR_MSG_NEED_ROLE");
-				mav.addObject("desc", "운영자의 인증이 받으셔야 합니다.");
-				result = mav;
+				if (result == null) {
+					ModelAndView mav = new ModelAndView("jsonView");
+					mav.addObject("key", "WAR_MSG_NEED_ROLE");
+					mav.addObject("desc", "운영자의 인증이 받으셔야 합니다.");
+					result = mav;
+				}
+			} else {
+				result = joinPoint.proceed();
+				if (result.toString().indexOf("springfox.documentation.swagger.web") == -1) {
+					result = null;
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
