@@ -9,9 +9,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thinven.boot.domain.entity.deployment.Deployment;
 import com.thinven.boot.support.domain.entity.model.Message;
+import com.thinven.boot.support.util.FileUtil;
 
 @Service
 public class DeploymentServiceImpl implements DeploymentService {
@@ -23,6 +25,16 @@ public class DeploymentServiceImpl implements DeploymentService {
 	public Message<Deployment> info(Message<Deployment> msg) {
 		if (msg.isOk()) {
 			msg.add("fileList", subDirList(this.homePath, ""));
+		}
+		return msg;
+	}
+
+	@Override
+	public Message<Deployment> add(Message<Deployment> msg) {
+		if (msg.isOk()) {
+			for (MultipartFile mf : msg.getParams().getFiles()) {
+				FileUtil.save(msg, mf, this.homePath);
+			}
 		}
 		return msg;
 	}

@@ -46,6 +46,8 @@ public class QEmployee extends EntityPathBase<Employee> {
     //inherited
     public final DateTimePath<java.util.Date> regdate = _super.regdate;
 
+    public final StringPath rolejson = createString("rolejson");
+
     public final StringPath uid = createString("uid");
 
     public QEmployee(String variable) {

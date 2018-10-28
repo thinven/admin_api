@@ -1,8 +1,12 @@
 package com.thinven.boot.domain.entity.deployment;
 
-import com.thinven.boot.support.domain.entity.model.EntityModel;
+import java.util.List;
 
-public class Deployment extends EntityModel {
+import org.springframework.web.multipart.MultipartFile;
+
+import com.thinven.boot.support.domain.entity.model.FileEntityModel;
+
+public class Deployment extends FileEntityModel {
 
 	public Deployment() {
 		super();
@@ -15,8 +19,23 @@ public class Deployment extends EntityModel {
 		this.setP3(p3);
 	}
 
+	public Deployment(String p1, String p2, String p3, List<MultipartFile> files) {
+		this();
+		this.setP1(p1);
+		this.setP2(p2);
+		this.setP3(p3);
+		this.setFiles(files);
+	}
+
 	@Override
-	public void setUid(String uid) {
+	public long getOwnerseq() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setOwnerseq(long ownerseq) {
+		// TODO Auto-generated method stub
 
 	}
 

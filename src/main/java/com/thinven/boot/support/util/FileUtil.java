@@ -11,8 +11,38 @@ import org.springframework.web.multipart.MultipartFile;
 import com.thinven.boot.support.config.Config;
 import com.thinven.boot.support.domain.entity.model.FileEntityModel;
 import com.thinven.boot.support.domain.entity.model.Message;
+import com.thinven.boot.support.log.Log;
 
 public abstract class FileUtil {
+
+	public static final Message<?> save(Message<?> msg, MultipartFile mf, String filePath) {
+		if (msg.isOk()) {
+			String fullPath = filePath + "/" + mf.getOriginalFilename();
+			Log.info(FileUtil.class, fullPath);
+			File f = new File(FileUtil.getOnlyPath(fullPath));
+			if (!f.exists())
+				f.mkdirs();
+			try {
+				FileCopyUtils.copy(mf.getBytes(), new FileOutputStream(fullPath));
+			} catch (FileNotFoundException e) {
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_FILE");
+			} catch (IOException e) {
+				System.out.println(e.getMessage());
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_FILE");
+				e.printStackTrace();
+			}
+		}
+		return msg;
+	}
+
+	public static final String getOnlyPath(String filePath) {
+		int pos = filePath.lastIndexOf("/");
+		if (pos > -1) {
+			return filePath.substring(0, pos);
+		} else {
+			return "";
+		}
+	}
 
 	public static final Message<?> save(Message<?> msg, MultipartFile mf, FileEntityModel fileentity) {
 
