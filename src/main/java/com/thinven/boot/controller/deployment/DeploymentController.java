@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.thinven.boot.domain.entity.deployment.Deployment;
 import com.thinven.boot.domain.entity.deployment.service.DeploymentService;
 import com.thinven.boot.domain.wrapper.WrapperService;
-import com.thinven.boot.support.log.Log;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,9 +40,16 @@ public class DeploymentController {
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ApiOperation(value = "배포폴더에 파일업로드", notes = "배포폴더에 파일 업로드하는 API.")
 	public ModelAndView upload(String p1, String p2, String p3, List<MultipartFile> files, HttpServletRequest request) throws IOException {
-		Log.showParameter(this, request);
-		Log.info(this, "files size : " + files.size());
 		Deployment deployment = new Deployment(p1, p2, p3, files);
+		deployment.setWorkspace(DeploymentService.FILE_UPLOAD);
+		return this.wrapperService.add(this.deploymentService, deployment, request).toMAV();
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	@ApiOperation(value = "배포폴더에 폴더 생성", notes = "배포폴더에 폴더를 생성하는 API.")
+	public ModelAndView add(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
+		Deployment deployment = new Deployment(p1, p2, p3);
+		deployment.setWorkspace(DeploymentService.NEW_FOLDER);
 		return this.wrapperService.add(this.deploymentService, deployment, request).toMAV();
 	}
 

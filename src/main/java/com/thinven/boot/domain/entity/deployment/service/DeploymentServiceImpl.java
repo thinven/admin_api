@@ -32,11 +32,26 @@ public class DeploymentServiceImpl implements DeploymentService {
 	@Override
 	public Message<Deployment> add(Message<Deployment> msg) {
 		if (msg.isOk()) {
-			for (MultipartFile mf : msg.getParams().getFiles()) {
-				FileUtil.save(msg, mf, this.homePath);
+			if (DeploymentService.FILE_UPLOAD.equals(msg.getParams().getWorkspace())) {
+				this.uploadFiles(msg);
+			} else if (DeploymentService.NEW_FOLDER.equals(msg.getParams().getWorkspace())) {
+				this.createFolder(msg);
 			}
+
 		}
 		return msg;
+	}
+
+	private void createFolder(Message<Deployment> msg) {
+		File newFolder = new File(this.homePath + msg.getParams().getParentPath() + msg.getParams().getFolderName());
+		if (!newFolder.exists())
+			newFolder.mkdirs();
+	}
+
+	private void uploadFiles(Message<Deployment> msg) {
+		for (MultipartFile mf : msg.getParams().getFiles()) {
+			FileUtil.save(msg, mf, this.homePath);
+		}
 	}
 
 	private List<Map<String, Object>> subDirList(String source, String parentPath) {

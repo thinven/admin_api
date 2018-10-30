@@ -8,6 +8,9 @@ import com.thinven.boot.support.domain.entity.model.FileEntityModel;
 
 public class Deployment extends FileEntityModel {
 
+	private String parentPath;
+	private String folderName;
+
 	public Deployment() {
 		super();
 	}
@@ -37,6 +40,23 @@ public class Deployment extends FileEntityModel {
 	public void setOwnerseq(long ownerseq) {
 		// TODO Auto-generated method stub
 
+	}
+
+	// Get & Set
+	public String getParentPath() {
+		return parentPath;
+	}
+
+	public void setParentPath(String parentPath) {
+		this.parentPath = parentPath;
+	}
+
+	public String getFolderName() {
+		return folderName;
+	}
+
+	public void setFolderName(String folderName) {
+		this.folderName = folderName;
 	}
 
 }
