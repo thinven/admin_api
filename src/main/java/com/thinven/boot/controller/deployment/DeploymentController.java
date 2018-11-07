@@ -2,10 +2,12 @@ package com.thinven.boot.controller.deployment;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +53,13 @@ public class DeploymentController {
 		Deployment deployment = new Deployment(p1, p2, p3);
 		deployment.setWorkspace(DeploymentService.NEW_FOLDER);
 		return this.wrapperService.add(this.deploymentService, deployment, request).toMAV();
+	}
+
+	@RequestMapping(method = RequestMethod.DELETE)
+	@ApiOperation(value = "배포폴더에 파일 삭제", notes = "배포폴더에 폴더를 삭제하는 API.")
+	public ModelAndView delete(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws IOException {
+		Deployment deployment = new Deployment(payload);
+		return this.wrapperService.delete(this.deploymentService, deployment, request).toMAV();
 	}
 
 }

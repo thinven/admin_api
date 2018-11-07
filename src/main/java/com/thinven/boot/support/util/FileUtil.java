@@ -17,7 +17,7 @@ public abstract class FileUtil {
 
 	public static final Message<?> save(Message<?> msg, MultipartFile mf, String filePath) {
 		if (msg.isOk()) {
-			String fullPath = filePath + "/" + mf.getOriginalFilename();
+			String fullPath = filePath + mf.getOriginalFilename();
 			Log.info(FileUtil.class, fullPath);
 			File f = new File(FileUtil.getOnlyPath(fullPath));
 			if (!f.exists())
@@ -80,5 +80,21 @@ public abstract class FileUtil {
 			}
 		}
 		return msg;
+	}
+
+	public static void deleteFile(String path) {
+		File deleteFolder = new File(path);
+		if (deleteFolder.exists()) {
+			File[] deleteFolderList = deleteFolder.listFiles();
+			for (int i = 0; i < deleteFolderList.length; i++) {
+				if (deleteFolderList[i].isFile()) {
+					deleteFolderList[i].delete();
+				} else {
+					deleteFile(deleteFolderList[i].getPath());
+				}
+				deleteFolderList[i].delete();
+			}
+			deleteFolder.delete();
+		}
 	}
 }

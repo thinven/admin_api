@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,6 +43,21 @@ public class DeploymentServiceImpl implements DeploymentService {
 		return msg;
 	}
 
+	@Override
+	public Message<Deployment> delete(Message<Deployment> msg) {
+		if (msg.isOk()) {
+			JSONObject json = new JSONObject(msg.getParams().getSelected());
+			File selectedFile = new File(this.homePath + json.getString("key"));
+			if (selectedFile.exists()) {
+				if (selectedFile.isFile())
+					selectedFile.delete();
+				else if (selectedFile.isDirectory())
+					FileUtil.deleteFile(this.homePath + json.getString("key"));
+			}
+		}
+		return msg;
+	}
+
 	private void createFolder(Message<Deployment> msg) {
 		File newFolder = new File(this.homePath + msg.getParams().getParentPath() + msg.getParams().getFolderName());
 		if (!newFolder.exists())
@@ -50,7 +66,7 @@ public class DeploymentServiceImpl implements DeploymentService {
 
 	private void uploadFiles(Message<Deployment> msg) {
 		for (MultipartFile mf : msg.getParams().getFiles()) {
-			FileUtil.save(msg, mf, this.homePath);
+			FileUtil.save(msg, mf, this.homePath + msg.getParams().getParentPath());
 		}
 	}
 
@@ -66,6 +82,7 @@ public class DeploymentServiceImpl implements DeploymentService {
 				map.put("key", newParentPath);
 				map.put("title", tempFile.getName());
 				if (tempFile.isFile()) {
+					map.put("isLeaf", true);
 					fileList.add(map);
 				} else if (tempFile.isDirectory()) {
 					map.put("isLeaf", false);

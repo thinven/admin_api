@@ -1,6 +1,7 @@
 package com.thinven.boot.domain.entity.deployment;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,6 +11,7 @@ public class Deployment extends FileEntityModel {
 
 	private String parentPath;
 	private String folderName;
+	private String selected;
 
 	public Deployment() {
 		super();
@@ -23,11 +25,15 @@ public class Deployment extends FileEntityModel {
 	}
 
 	public Deployment(String p1, String p2, String p3, List<MultipartFile> files) {
-		this();
-		this.setP1(p1);
-		this.setP2(p2);
-		this.setP3(p3);
+		this(p1, p2, p3);
 		this.setFiles(files);
+	}
+
+	public Deployment(Map<String, Object> payload) {
+		this();
+		this.setP1(payload.get("p1").toString());
+		this.setP2(payload.get("p2").toString());
+		this.setP3(payload.get("p3").toString());
 	}
 
 	@Override
@@ -57,6 +63,14 @@ public class Deployment extends FileEntityModel {
 
 	public void setFolderName(String folderName) {
 		this.folderName = folderName;
+	}
+
+	public String getSelected() {
+		return selected;
+	}
+
+	public void setSelected(String selected) {
+		this.selected = selected;
 	}
 
 }
