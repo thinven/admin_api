@@ -7,12 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.thinven.boot.domain.entity.deployment.Deployment;
+import com.thinven.boot.domain.entity.employeeset.employeeauth.service.EmployeeAuthService;
+import com.thinven.boot.support.domain.entity.model.MemberModel;
 import com.thinven.boot.support.domain.entity.model.Message;
 import com.thinven.boot.support.util.FileUtil;
 
@@ -21,11 +25,18 @@ public class DeploymentServiceImpl implements DeploymentService {
 
 	@Value("${home.root.path}")
 	private String homePath;
+	@Value("${home.root.sample.path}")
+	private String samplePath;
+
+	@Autowired
+	private EmployeeAuthService employeeAuthService;
+
+	// ========================================================================
 
 	@Override
 	public Message<Deployment> info(Message<Deployment> msg) {
 		if (msg.isOk()) {
-			msg.add("fileList", subDirList(this.homePath, ""));
+			this.filelist(msg);
 		}
 		return msg;
 	}
@@ -56,6 +67,30 @@ public class DeploymentServiceImpl implements DeploymentService {
 			}
 		}
 		return msg;
+	}
+
+	// ========================================================================
+
+	private void filelist(Message<Deployment> msg) {
+		MemberModel mmInfo = this.employeeAuthService.infoByRk(msg.getParams().getRk());
+		if (mmInfo != null) {
+			String rootpath = this.homePath + "/" + mmInfo.getId();
+			File rootFolder = new File(rootpath);
+			if (!rootFolder.exists())
+				this.copySampleCode(msg, rootFolder);
+			if (msg.isOk())
+				msg.add("fileList", subDirList(rootpath, ""));
+		} else {
+			msg.setMsg("WAR_MSG_DATA_NOT_FOUND", "EMPLOYEEAUTH_ID");
+		}
+	}
+
+	private void copySampleCode(Message<Deployment> msg, File rootFolder) {
+		try {
+			FileUtils.copyDirectory(new File(this.samplePath), rootFolder);
+		} catch (IOException e) {
+			msg.setMsg("WAR_MSG_DATA_NOT_FOUND", "EMPLOYEEAUTH_ID");
+		}
 	}
 
 	private void createFolder(Message<Deployment> msg) {
