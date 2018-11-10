@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,13 @@ public class DeploymentServiceImpl implements DeploymentService {
 	@Override
 	public Message<Deployment> info(Message<Deployment> msg) {
 		if (msg.isOk()) {
-			this.filelist(msg);
+			if (DeploymentService.GET_FILELIST.equals(msg.getParams().getWorkspace())) {
+				this.filelist(msg);
+			} else if (DeploymentService.GET_FILETEXT.equals(msg.getParams().getWorkspace())) {
+				this.filetext(msg);
+			} else {
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+			}
 		}
 		return msg;
 	}
@@ -48,8 +55,9 @@ public class DeploymentServiceImpl implements DeploymentService {
 				this.uploadFiles(msg);
 			} else if (DeploymentService.NEW_FOLDER.equals(msg.getParams().getWorkspace())) {
 				this.createFolder(msg);
+			} else {
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
 			}
-
 		}
 		return msg;
 	}
@@ -57,13 +65,14 @@ public class DeploymentServiceImpl implements DeploymentService {
 	@Override
 	public Message<Deployment> delete(Message<Deployment> msg) {
 		if (msg.isOk()) {
+			MemberModel mmInfo = this.employeeAuthService.infoByRk(msg.getParams().getRk());
 			JSONObject json = new JSONObject(msg.getParams().getSelected());
-			File selectedFile = new File(this.homePath + json.getString("key"));
+			File selectedFile = new File(this.homePath + "/" + mmInfo.getId() + "/" + json.getString("key"));
 			if (selectedFile.exists()) {
 				if (selectedFile.isFile())
 					selectedFile.delete();
 				else if (selectedFile.isDirectory())
-					FileUtil.deleteFile(this.homePath + json.getString("key"));
+					FileUtil.deleteFile(this.homePath + "/" + mmInfo.getId() + "/" + json.getString("key"));
 			}
 		}
 		return msg;
@@ -85,6 +94,27 @@ public class DeploymentServiceImpl implements DeploymentService {
 		}
 	}
 
+	private void filetext(Message<Deployment> msg) {
+		MemberModel mmInfo = this.employeeAuthService.infoByRk(msg.getParams().getRk());
+		JSONObject json = new JSONObject(msg.getParams().getSelected());
+		File selectedFile = new File(this.homePath + "/" + mmInfo.getId() + "/" + json.getString("key"));
+		if (selectedFile.exists()) {
+			if (selectedFile.isFile()) {
+				try {
+					msg.add("filetext", FileUtil.readFile(this.homePath + "/" + mmInfo.getId() + "/" + json.getString("key")));
+				} catch (JSONException e) {
+					msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+				} catch (IOException e) {
+					msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+				}
+			} else {
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+			}
+		} else {
+			msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+		}
+	}
+
 	private void copySampleCode(Message<Deployment> msg, File rootFolder) {
 		try {
 			FileUtils.copyDirectory(new File(this.samplePath), rootFolder);
@@ -94,7 +124,8 @@ public class DeploymentServiceImpl implements DeploymentService {
 	}
 
 	private void createFolder(Message<Deployment> msg) {
-		File newFolder = new File(this.homePath + msg.getParams().getParentPath() + msg.getParams().getFolderName());
+		MemberModel mmInfo = this.employeeAuthService.infoByRk(msg.getParams().getRk());
+		File newFolder = new File(this.homePath + "/" + mmInfo.getId() + "/" + msg.getParams().getParentPath() + msg.getParams().getFolderName());
 		if (!newFolder.exists())
 			newFolder.mkdirs();
 	}

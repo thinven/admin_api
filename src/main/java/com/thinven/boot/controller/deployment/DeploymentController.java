@@ -36,6 +36,15 @@ public class DeploymentController {
 	@ApiOperation(value = "배포폴더 파일목록 조회", notes = "배포폴더 파일목록 조회하는 API.")
 	public ModelAndView info(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
 		Deployment deployment = new Deployment(p1, p2, p3);
+		deployment.setWorkspace(DeploymentService.GET_FILELIST);
+		return this.wrapperService.info(this.deploymentService, deployment, request).toMAV();
+	}
+
+	@RequestMapping(value = "/text", method = RequestMethod.GET)
+	@ApiOperation(value = "배포폴더 단일 파일내용 조회", notes = "배포폴더 단일 파일내용 조회하는 API.")
+	public ModelAndView text(String p1, String p2, String p3, HttpServletRequest request) throws IOException {
+		Deployment deployment = new Deployment(p1, p2, p3);
+		deployment.setWorkspace(DeploymentService.GET_FILETEXT);
 		return this.wrapperService.info(this.deploymentService, deployment, request).toMAV();
 	}
 

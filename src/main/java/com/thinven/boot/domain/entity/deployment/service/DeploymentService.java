@@ -7,6 +7,9 @@ import com.thinven.boot.support.domain.entity.service.InfoService;
 
 public interface DeploymentService extends InfoService<Deployment>, AddService<Deployment>, DeleteService<Deployment> {
 
+	String GET_FILELIST = "get_filelist";
+	String GET_FILETEXT = "get_filetext";
+
 	String FILE_UPLOAD = "file_upload";
 	String NEW_FOLDER = "new_folder";
 
