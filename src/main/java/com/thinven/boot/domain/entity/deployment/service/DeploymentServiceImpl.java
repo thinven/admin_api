@@ -1,6 +1,7 @@
 package com.thinven.boot.domain.entity.deployment.service;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +57,23 @@ public class DeploymentServiceImpl implements DeploymentService {
 			} else if (DeploymentService.NEW_FOLDER.equals(msg.getParams().getWorkspace())) {
 				this.createFolder(msg);
 			} else {
+				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
+			}
+		}
+		return msg;
+	}
+
+	@Override
+	public Message<Deployment> update(Message<Deployment> msg) {
+		if (msg.isOk()) {
+			MemberModel mmInfo = this.employeeAuthService.infoByRk(msg.getParams().getRk());
+			File selectedFile = new File(this.homePath + "/" + mmInfo.getId() + "/" + msg.getParams().getTextKey());
+			FileWriter fw = null;
+			try {
+				fw = new FileWriter(selectedFile);
+				fw.write(msg.getParams().getText());
+				fw.close();
+			} catch (IOException e) {
 				msg.setMsg("WAR_MSG_INPUT_ERROR", "PARAM_REQUEST");
 			}
 		}

@@ -64,6 +64,13 @@ public class DeploymentController {
 		return this.wrapperService.add(this.deploymentService, deployment, request).toMAV();
 	}
 
+	@RequestMapping(value="/text", method = RequestMethod.PATCH)
+	@ApiOperation(value = "단일 파일 내용 저장", notes = "배포폴더에 단일파일 내용을 수정하는 API.")
+	public ModelAndView update(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws IOException {
+		Deployment deployment = new Deployment(payload);
+		return this.wrapperService.update(this.deploymentService, deployment, request).toMAV();
+	}
+
 	@RequestMapping(method = RequestMethod.DELETE)
 	@ApiOperation(value = "배포폴더에 파일 삭제", notes = "배포폴더에 폴더를 삭제하는 API.")
 	public ModelAndView delete(@RequestBody Map<String, Object> payload, HttpServletRequest request) throws IOException {

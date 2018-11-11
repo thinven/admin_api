@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.thinven.boot.support.domain.entity.model.FileEntityModel;
 
 public class Deployment extends FileEntityModel {
@@ -12,6 +13,8 @@ public class Deployment extends FileEntityModel {
 	private String parentPath;
 	private String folderName;
 	private String selected;
+	private String text;
+	private String textKey;
 
 	public Deployment() {
 		super();
@@ -71,6 +74,24 @@ public class Deployment extends FileEntityModel {
 
 	public void setSelected(String selected) {
 		this.selected = selected;
+	}
+
+	@JsonIgnore
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	@JsonIgnore
+	public String getTextKey() {
+		return textKey;
+	}
+
+	public void setTextKey(String textKey) {
+		this.textKey = textKey;
 	}
 
 }
