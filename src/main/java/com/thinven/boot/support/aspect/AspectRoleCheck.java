@@ -1,7 +1,7 @@
 package com.thinven.boot.support.aspect;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.thinven.boot.domain.entity.employeeset.employeeauth.service.EmployeeAuthCacheService;
 import com.thinven.boot.support.constant.Roles;
-import com.thinven.boot.support.log.Log;
 
 @Aspect
 @Component
@@ -27,55 +26,55 @@ public class AspectRoleCheck {
 	@Around("execution(* *..*Controller.*(..))")
 	public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
 		Object result = null;
-		try {
-			HttpServletRequest request = getRequest(joinPoint);
-			if (request != null) {
-				String uri = request.getRequestURI();
-				String rk = request.getHeader("x-auth-token");
-				String roles = "";
-				if (rk != null && !"".equals(rk))
-					roles = this.employeeAuthCacheService.infoByRkForAop(rk);
+		HttpServletRequest request = getRequest(joinPoint);
+		if (request != null) {
 
-				Map<String, String> rolesMap = getRoles();
-				for (String uriPattern : rolesMap.keySet()) {
-					if (uri.matches(uriPattern)) {
-						String rolePattern = rolesMap.get(uriPattern);
-						if (roles.matches(rolePattern)) {
-							result = joinPoint.proceed();
-							break;
-						} else {
-							Log.info(this, "role matching fail");
-							Log.info(this, "rk : " + rk);
-							Log.info(this, "roles : " + roles);
-							Log.info(this, "uriPattern : " + uriPattern);
-							Log.info(this, "rolePattern : " + rolePattern);
-							break;
-						}
-					}
-				}
-				if (result == null) {
-					ModelAndView mav = new ModelAndView("jsonView");
-					mav.addObject("key", "WAR_MSG_NEED_ROLE");
-					mav.addObject("desc", "운영자의 인증이 받으셔야 합니다.");
-					result = mav;
-				}
-			} else {
-				result = joinPoint.proceed();
-				if (result.toString().indexOf("springfox.documentation.swagger.web") == -1) {
-					result = null;
-				}
+			result = proceedWrap(request, joinPoint);
+			if (result == null) {
+				ModelAndView mav = new ModelAndView("jsonView");
+				mav.addObject("key", "WAR_MSG_NEED_ROLE");
+				mav.addObject("desc", "운영자의 인증이 받으셔야 합니다.");
+				result = mav;
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
+			result = joinPoint.proceed();
+			if (result.toString().indexOf("springfox.documentation.swagger.web") == -1) {
+				result = null;
+			}
 		}
 		return result;
 	}
 
-	private Map<String, String> getRoles() {
-		Map<String, String> roles = new HashMap<String, String>();
-		roles.put("/employees", "(.*)" + Roles.SYSTEM_ADMIN + "(.*)");
-		roles.put("/commonCode(.*)", "(.*)" + Roles.SYSTEM_ADMIN + "(.*)");
-		roles.put("(.*)", "(.*)");
+	private Object proceedWrap(HttpServletRequest request, ProceedingJoinPoint joinPoint) {
+		String uri = request.getRequestURI();
+		String rk = request.getHeader("x-auth-token");
+		String roles = "";
+		if (rk != null && !"".equals(rk) && !"guest".equals(rk))
+			roles = this.employeeAuthCacheService.infoByRkForAop(rk);
+
+		List<UrlRoles> rolesList = getRoles();
+		for (UrlRoles urlRoles : rolesList) {
+			if (uri.matches(urlRoles.getUrl())) {
+				for (String rolePattern : urlRoles.getRoles()) {
+					if (roles.matches(rolePattern)) {
+						try {
+							return joinPoint.proceed();
+						} catch (Throwable e) {
+							e.printStackTrace();
+						}
+					}
+				}
+				return null;
+			}
+		}
+		return null;
+	}
+
+	private List<UrlRoles> getRoles() {
+		List<UrlRoles> roles = new ArrayList<UrlRoles>();
+		roles.add(new UrlRoles("/api/employees", "(.*)" + Roles.SYSTEM_ADMIN + "(.*)"));
+		roles.add(new UrlRoles("/api/commonCode(.*)", "(.*)" + Roles.SYSTEM_ADMIN + "(.*)"));
+		roles.add(new UrlRoles("(.*)", "(.*)"));
 		return roles;
 	}
 

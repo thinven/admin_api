@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/employees")
+@RequestMapping(value = "/api/employees")
 @Api(tags = "직원")
 public class EmployeeController {
 

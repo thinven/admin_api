@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/roles")
+@RequestMapping(value = "/api/roles")
 @Api(tags = "역할")
 public class RoleController {
 

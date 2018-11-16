@@ -20,7 +20,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/commonCodes")
+@RequestMapping(value = "/api/commonCodes")
 @Api(tags = "공통코드")
 public class CommonCodeController {
 

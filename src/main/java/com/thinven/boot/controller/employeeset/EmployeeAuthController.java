@@ -18,7 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/employeeAuth")
+@RequestMapping(value = "/api/employeeAuth")
 @Api(tags = "직원인증")
 public class EmployeeAuthController {
 

@@ -22,7 +22,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/deployment")
+@RequestMapping(value = "/api/deployment")
 @Api(tags = "배포 관리")
 public class DeploymentController {
 

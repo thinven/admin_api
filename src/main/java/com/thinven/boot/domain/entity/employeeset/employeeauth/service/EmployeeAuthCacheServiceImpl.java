@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 
+import com.thinven.boot.domain.entity.employeeset.employeeauth.EmployeeAuth;
 import com.thinven.boot.domain.entity.employeeset.employeeauth.dao.EmployeeAuthDao;
 
 @Service
@@ -17,7 +18,12 @@ public class EmployeeAuthCacheServiceImpl implements EmployeeAuthCacheService {
 	@Override
 	@Cacheable(cacheNames = "employeeAuthCache", key = "#rk")
 	public String infoByRkForAop(String rk) {
-		return this.employeeAuthDao.infoByRk(rk).getEmployee().getRolejson();
+		EmployeeAuth info = this.employeeAuthDao.infoByRk(rk);
+		if (info != null) {
+			return info.getEmployee().getRolejson();
+		} else {
+			return "";
+		}
 	}
 
 	@Override
